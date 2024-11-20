@@ -8,10 +8,18 @@ interface coords {
     latitude: number;
 }
 
-const MapWithLocation = () => {
+interface MarkerData {
+    latitude: number;
+    longitude: number;
+    description: string;
+    address: string;
+}
 
-    const [markersData, setMarkersData] = useState([]);
+const Mapa = () => {
+
+    // Estado para armazenar os dados dos marcadores
     const [userLocation, setUserLocation] = useState<coords>();
+    const [markersData, setMarkersData] = useState<MarkerData[]>([]);
 
     // Função para obter a localização atual
     useEffect(() => {
@@ -34,44 +42,8 @@ const MapWithLocation = () => {
         getUserLocation();
     }, []);
 
-    // Use o hook useEffect para criar o mapa apenas quando a localização do usuário estiver disponível
+    // Função para carregar os dados dos marcadores
     useEffect(() => {
-        if (userLocation) {
-            mapboxgl.accessToken = 'pk.eyJ1IjoiYmFycm9zMjYzIiwiYSI6ImNtM29jdXowejAyZjQya3EzNGcxYzV2YWkifQ.Djv_p2br6Rk2qIbVvPPlcQ';
-
-            const map = new mapboxgl.Map({
-                container: 'map',
-                style: 'mapbox://styles/barros263/cm3ogyktv006l01rzgf8mg5qa',
-                center: [userLocation.longitude, userLocation.latitude],
-                zoom: 15,
-            });
-
-            new mapboxgl.Marker()
-                .setLngLat([userLocation.longitude, userLocation.latitude])
-                .addTo(map);
-
-            // Adicionar marcadores quando os dados forem carregados
-            if (markersData.length > 0) {
-                markersData.forEach(({ latitude, longitude, description }) => {
-                    // Criar elemento para o marcador
-                    const el = document.createElement('div');
-                    el.className = 'marker';
-                    el.style.backgroundColor = 'red';
-                    el.style.width = '15px';
-                    el.style.height = '15px';
-                    el.style.borderRadius = '50%';
-
-                    // Adicionar marcador ao mapa
-                    new mapboxgl.Marker()
-                        .setLngLat([longitude, latitude])
-                        .setPopup(new mapboxgl.Popup().setHTML(`<p>${description}</p>`)) // Popup ao clicar
-                        .addTo(map);
-                });
-            }
-
-            return () => map.remove();
-        }
-
         // Carregar os dados do arquivo JSON
         const fetchMarkers = async () => {
             try {
@@ -82,14 +54,71 @@ const MapWithLocation = () => {
                 console.error('Erro ao carregar marcadores:', error);
             }
         };
-
         fetchMarkers();
-    }, [userLocation]);
+    }, [])
+
+    // Use o hook useEffect para criar o mapa apenas quando a localização do usuário estiver disponível
+    useEffect(() => {
+        if (userLocation && markersData.length > 0) {
+            mapboxgl.accessToken = 'pk.eyJ1IjoiYmFycm9zMjYzIiwiYSI6ImNtM29jdXowejAyZjQya3EzNGcxYzV2YWkifQ.Djv_p2br6Rk2qIbVvPPlcQ';
+
+            const { latitude, longitude } = userLocation;
+
+            // Calcular deslocamento para 20 km em graus
+            const kmToDegrees = 20 / 111;
+            const north = latitude + kmToDegrees;
+            const south = latitude - kmToDegrees;
+            const east = longitude + kmToDegrees / Math.cos((latitude * Math.PI) / 180);
+            const west = longitude - kmToDegrees / Math.cos((latitude * Math.PI) / 180);
+
+            const bounds: [number, number, number, number] = [west, south, east, north];
+
+            // Criar o mapa
+            const map = new mapboxgl.Map({
+                container: 'map',
+                style: 'mapbox://styles/barros263/cm3ogyktv006l01rzgf8mg5qa',
+                center: [userLocation.longitude, userLocation.latitude],
+                zoom: 12,
+            });
+
+            // Definir limites do mapa
+            map.setMaxBounds(bounds);
+
+            // Adicionar o marcador do usuário
+            new mapboxgl.Marker()
+                .setLngLat([userLocation.longitude, userLocation.latitude])
+                .addTo(map);
+
+            // Adicionar marcadores quando os dados forem carregados
+            if (markersData.length > 0) {
+                markersData.forEach(({ latitude, longitude, description, address }) => {
+                    // Criar elemento para o marcador
+                    const el = document.createElement('div');
+                    el.className = 'marker';
+                    el.style.backgroundImage = `url(/icons/painel-solar.png)`;
+                    el.style.width = '50px';
+                    el.style.height = '50px';
+                    el.style.backgroundSize = '100%';
+                    el.style.backgroundRepeat = 'no-repeat';
+                    el.style.backgroundPosition = 'center';
+                    el.style.cursor = 'pointer';
+
+                    // Adicionar marcador ao mapa
+                    new mapboxgl.Marker(el)
+                        .setLngLat([longitude, latitude])
+                        .setPopup(new mapboxgl.Popup().setHTML(`<p>${description}<br/>${address}</p>`)) // Popup ao clicar
+                        .addTo(map);
+                });
+            }
+
+            return () => map.remove();
+        }
+    }, [userLocation, markersData]);
 
     return (
         <div id='container-mapa'>
             {userLocation ? (
-                <div style={{ height: '90vh', width: '60%' }} id="map"></div>
+                <div style={{ height: '100vh', width: '100%' }} id="map"></div>
             ) : (
                 <p>Obtendo localização...</p>
             )}
@@ -97,4 +126,4 @@ const MapWithLocation = () => {
     );
 };
 
-export default MapWithLocation;
+export default Mapa;

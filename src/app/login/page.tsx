@@ -1,9 +1,12 @@
 'use client';
-import React from 'react';
+import React, {useEffect} from 'react';
 import { useForm } from 'react-hook-form';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import { useAuth } from 'context/AuthProvider';
+import { login } from 'utils/auth';
 
 // Schema de validação
 const schema = yup.object({
@@ -20,15 +23,34 @@ interface IFormInputs {
   senha: string;
 }
 
-export default function LoginPage() {
+const LoginPage = () => {
+
+  // Hook do Next.js para navegação
+  const router = useRouter();
+
+  const { isAuth } = useAuth();
+
+  // Hook do React Hook Form
   const { register, handleSubmit, formState: { errors } } = useForm<IFormInputs>({
     resolver: yupResolver(schema)
   });
 
-  const onSubmit = (data: IFormInputs) => {
-    console.log(data);
-    // Aqui você pode adicionar a lógica de autenticação
+  const onSubmit = async (data: IFormInputs) => {
+
+    const isSuccess = login(data.email, data.senha);
+
+    if (await isSuccess) {
+      router.push('/dashboard');
+    } else {
+      alert('Email ou senha inválidos');
+    }
   };
+
+  useEffect(() => {
+    if (isAuth) {
+      router.push("/dashboard")
+    }
+  }, [isAuth, router])
 
   return (
     <div className="min-h-screen bg-gray-100 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
@@ -38,7 +60,7 @@ export default function LoginPage() {
         </h2>
         <p className="mt-2 text-center text-sm text-gray-600">
           Ou{' '}
-          <Link href="/cadastro" className="font-medium text-indigo-600 hover:text-indigo-500">
+          <Link href="/cadastro-usuario" className="font-medium text-indigo-600 hover:text-indigo-500">
             cadastre-se gratuitamente
           </Link>
         </p>
@@ -112,34 +134,10 @@ export default function LoginPage() {
               </button>
             </div>
           </form>
-
-          <div className="mt-6">
-            <div className="relative">
-              <div className="absolute inset-0 flex items-center">
-                <div className="w-full border-t border-gray-300" />
-              </div>
-              <div className="relative flex justify-center text-sm">
-                <span className="px-2 bg-white text-gray-500">Ou continue com</span>
-              </div>
-            </div>
-
-            <div className="mt-6 grid grid-cols-2 gap-3">
-              <button
-                type="button"
-                className="w-full inline-flex justify-center py-2 px-4 border border-gray-300 rounded-md shadow-sm bg-white text-sm font-medium text-gray-500 hover:bg-gray-50"
-              >
-                Google
-              </button>
-              <button
-                type="button"
-                className="w-full inline-flex justify-center py-2 px-4 border border-gray-300 rounded-md shadow-sm bg-white text-sm font-medium text-gray-500 hover:bg-gray-50"
-              >
-                Facebook
-              </button>
-            </div>
-          </div>
         </div>
       </div>
     </div>
   );
 }
+
+export default LoginPage;

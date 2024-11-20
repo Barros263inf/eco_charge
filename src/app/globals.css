@@ -7,24 +7,99 @@
   --foreground: #171717;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+.wrapper {
+  margin: 0 auto;
+  max-width: 1024px;
 }
 
+.logo img {
+  width: 3em;
+  height: 3em;
+  border-radius: 50%;
+}
+
+#header {
+  color: #ffffff;
+  padding-block: 1em;
+  background-color: #171717;
+}
+
+#header>div.wrapper, #header nav > ul {
+  gap: 2em;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
 
 #intro {
-  min-height: 100vh;
-  background: url("../../public/banner3.jpg") no-repeat top;
+  min-height: 90vh;
+  background: url("/banner3.jpg") no-repeat top;
   background-size: cover;
 }
 
 #container-mapa {
-  padding: 2em;
+  padding: .2em;
+  margin: 2em auto;
+  max-width: 800px;
+  border-radius: .5em;
+  height: 90vh;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+  background-color: #cecece;
+}
+
+#container-mapa #map {
+  border-radius: .5em;
+}
+
+#footer {
+  padding-block: 1em;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: space-between;
+  color: #ffffff;
+  background-color: #171717;
+}
+
+#footer div {
+  gap: 2em;
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  align-items: baseline;
+  justify-content: space-evenly;
+}
+
+#footer ul {
+  gap: 1em;
+  margin-block: 2em;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
+}
+
+#footer ul h3 {
+  font-size: 1.3em;
+  font-weight: bolder;
+}
+
+#footer ul li {
+  list-style: none;
+}
+
+#footer p {
+  padding: 1.5em;
+  width: 100%;
+  text-align: center;
+  border-top: 1px solid #dddddd;
+}
+
+#footer .link-icon-flx-rw {
+  gap: 1em;
+  display: flex;
+  flex-direction: row;
 }

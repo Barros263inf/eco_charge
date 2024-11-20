@@ -3,21 +3,22 @@ import React from 'react';
 import { useForm } from 'react-hook-form';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
+import { useRouter } from 'next/navigation';
 
 // Definindo o schema de validação com Yup
 const schema = yup.object({
   nome: yup.string()
     .required('Nome é obrigatório')
-    .min(2, 'Nome deve ter pelo menos 2 caracteres'),
+    .min(5, 'Nome deve ter pelo menos 5 caracteres'),
   sobrenome: yup.string()
     .required('Sobrenome é obrigatório')
-    .min(2, 'Sobrenome deve ter pelo menos 2 caracteres'),
+    .min(5, 'Sobrenome deve ter pelo menos 5 caracteres'),
   email: yup.string()
     .required('E-mail é obrigatório')
     .email('Digite um e-mail válido'),
   senha: yup.string()
     .required('Senha é obrigatória')
-    .min(6, 'Senha deve ter pelo menos 6 caracteres')
+    .min(12, 'Senha deve ter pelo menos 12 caracteres')
     .matches(
       /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{6,}$/,
       'Senha deve conter pelo menos uma letra maiúscula, uma minúscula e um número'
@@ -32,14 +33,20 @@ interface IFormInputs {
   senha: string;
 }
 
-export default function SignUpPage() {
+const CadastroUsuarioPage = () => {
 
+  // Hook do React Hook Form
+  const router = useRouter();
+
+  // Hook do Yup para validação
   const { register, handleSubmit, formState: { errors } } = useForm<IFormInputs>({
     resolver: yupResolver(schema)
   });
 
+  // Função para lidar com o envio do formulário
   const onSubmit = (data: IFormInputs) => {
     console.log(data);
+    router.push('/cadastro-concluido');
     // Aqui você pode adicionar a lógica para enviar os dados para o backend
   };
 
@@ -136,3 +143,5 @@ export default function SignUpPage() {
     </div>
   );
 }
+
+export default CadastroUsuarioPage;

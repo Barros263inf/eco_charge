@@ -1,6 +1,6 @@
 import React from 'react';
-import { Sun, Battery, MapPin, ArrowRight, Phone } from 'lucide-react';
 import Link from 'next/link';
+import { Sun, Battery, MapPin, ArrowRight, Phone } from 'lucide-react';
 
 const HomePage = () => {
   return (
@@ -78,9 +78,11 @@ const HomePage = () => {
             Junte-se à nossa rede de parceiros e ofereça energia solar gratuita para seus clientes
           </p>
           <div className="flex justify-center gap-4 flex-wrap">
-            <button className="inline-flex items-center bg-white text-blue-900 hover:bg-gray-100 px-6 py-3 rounded-md font-medium transition-colors duration-200">
-              Seja um Parceiro
-            </button>
+            <Link href='/cadastro-parceiro'>
+              <button className="inline-flex items-center bg-white text-blue-900 hover:bg-gray-100 px-6 py-3 rounded-md font-medium transition-colors duration-200">
+                Seja um Parceiro
+              </button>
+            </Link>
             <button className="inline-flex items-center border-2 border-white text-white hover:bg-blue-800 px-6 py-3 rounded-md font-medium transition-colors duration-200">
               <Phone className="mr-2" />
               Fale Conosco
@@ -88,20 +90,6 @@ const HomePage = () => {
           </div>
         </div>
       </section>
-
-      {/* Footer */}
-      <footer className="bg-black py-16 px-4 md:px-6 lg:px-8">
-        <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center">
-          <p className=" mb-4 md:mb-0">
-            © 2024 Energia Solar Pública. Todos os direitos reservados.
-          </p>
-          <div className="flex gap-6">
-            <a href="#" className=" hover:text-blue-900">Sobre</a>
-            <a href="#" className=" hover:text-blue-900">Contato</a>
-            <a href="#" className=" hover:text-blue-900">Parceiros</a>
-          </div>
-        </div>
-      </footer>
     </div>
   );
 };

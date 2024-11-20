@@ -1,17 +1,32 @@
 [
   {
-    "latitude": -23.55052,
-    "longitude": -46.633308,
-    "description": "Centro de São Paulo"
-  },
-  {
-    "latitude": -23.57332,
-    "longitude": -46.641581,
-    "description": "Avenida Paulista"
-  },
-  {
     "latitude": -23.559616,
     "longitude": -46.731386,
-    "description": "Parque Villa-Lobos"
+    "description": "Parque Villa-Lobos",
+    "address": "Av. Prof. Fonseca Rodrigues, Alto de Pinheiros, São Paulo, SP"
+  },
+  {
+    "latitude": -23.586837,
+    "longitude": -46.657854,
+    "description": "Parque Ibirapuera",
+    "address": "Av. Pedro Álvares Cabral, Vila Mariana, São Paulo, SP"
+  },
+  {
+    "latitude": -23.543178,
+    "longitude": -46.629184,
+    "description": "Museu Catavento",
+    "address": "Av. Mercúrio, Brás, São Paulo, SP"
+  },
+  {
+    "latitude": -23.5245,
+    "longitude": -46.5289,
+    "description": "Parque do Carmo",
+    "address": "Av. Afonso de Sampaio e Souza, Itaquera, São Paulo, SP"
+  },
+  {
+    "latitude": -23.5334,
+    "longitude": -46.7257,
+    "description": "Parque Estadual do Jaraguá",
+    "address": "Rua Antônio Cardoso Nogueira, Vila Chica Luiza, São Paulo, SP"
   }
 ]
