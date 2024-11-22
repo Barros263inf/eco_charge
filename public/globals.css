@@ -399,6 +399,89 @@ section.container {
   flex-direction: row;
 }
 
+
+#time {
+  margin: 6em auto;
+  text-align: center;
+}
+
+#time section {
+  padding: 2em 0;
+  border-radius: 1em;
+  background-color: #f6b41f;
+}
+
+#time section h2 {
+  color: #fff;
+  font-size: 2em;
+}
+
+#time .container-perfil {
+
+  min-height: 60vh;
+  gap: 2em .5em;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: stretch;
+  flex-direction: row;
+  justify-content: space-around;
+
+}
+
+#time .perfil {
+  flex: 1;
+  max-width: 300px;
+  height: 30em;
+  padding: 1.5em;
+  margin: 2em .5em;
+  border-radius: 0 0 1em;
+  
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: space-around;
+
+  background-color: #ffffff;
+}
+
+#time .perfil:hover {
+  box-shadow: 0 0 20px #68686873;
+}
+
+#time section .perfil .container-perfil-img {
+  
+  border-radius: 5em;
+  background-color: #7fff00;
+}
+
+#time section .perfil img {
+
+  width: 10em;
+  height: 10em;
+  max-width: 15em;
+  border-radius: 50%;
+  
+}
+
+#time .perfil p {
+  font-size: 1.8em;
+  font-style: oblique;
+}
+
+#time section .perfil button {
+  color: #fff;
+  font-size: 1.2em;
+  padding: 1em 2em;
+  background-color: #232323;
+}
+
+#time section .perfil button:hover {
+  color: #fff;
+  padding: 1em 2em;
+  background-color: #004182;
+}
+
+
 @media (max-width: 800px) {
   .row {
     flex-wrap: wrap;
