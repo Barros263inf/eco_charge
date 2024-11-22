@@ -1,6 +1,11 @@
+'use client'
 import Link from "next/link";
+import { useAuth } from "context/AuthProvider";
 
 const Header = () => {
+
+    const { isAuth } = useAuth()
+
     return (
         <header id="header">
             <div className="wrapper">
@@ -16,15 +21,26 @@ const Header = () => {
                         <li>
                             <Link href="/mapa">Mapa</Link>
                         </li>
-                        <li>
-                            <Link href="/login">Login</Link>
-                        </li>
+                        {
+                            !isAuth && (
+                                <li>
+                                    <Link href="/login">Login</Link>
+                                </li>
+                            )
+                        }
+                        {
+                            isAuth && (
+                                <li>
+                                    <Link href="/dashboard">Dashboard</Link>
+                                </li>
+                            )
+                        }
                     </ul>
                 </nav>
-                
+
             </div>
         </header>
-        );
+    );
 }
 
 export default Header;

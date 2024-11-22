@@ -1,9 +1,11 @@
 'use client'
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useRouter } from 'next/navigation';
+import Popup from 'components/Popup';
+import { useAuth } from 'context/AuthProvider';
 
 // Definindo o schema de validação com Yup
 const schema = yup.object({
@@ -18,11 +20,8 @@ const schema = yup.object({
     .email('Digite um e-mail válido'),
   senha: yup.string()
     .required('Senha é obrigatória')
-    .min(12, 'Senha deve ter pelo menos 12 caracteres')
-    .matches(
-      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{6,}$/,
-      'Senha deve conter pelo menos uma letra maiúscula, uma minúscula e um número'
-    ),
+    .min(6, 'Senha deve ter pelo menos 6 caracteres')
+    .max(12, 'Senha deve ter no máximo 12 caracteres')
 });
 
 // Interface para tipagem dos dados do formulário
@@ -35,8 +34,14 @@ interface IFormInputs {
 
 const CadastroUsuarioPage = () => {
 
+  // Estado de autenticação
+  const { isAuth } = useAuth();
+
   // Hook do React Hook Form
   const router = useRouter();
+
+  // Estado para exibir o popup de sucesso
+  const [showPopup, setShowPopup] = useState(false);
 
   // Hook do Yup para validação
   const { register, handleSubmit, formState: { errors } } = useForm<IFormInputs>({
@@ -44,103 +49,108 @@ const CadastroUsuarioPage = () => {
   });
 
   // Função para lidar com o envio do formulário
-  const onSubmit = (data: IFormInputs) => {
-    console.log(data);
-    router.push('/cadastro-concluido');
-    // Aqui você pode adicionar a lógica para enviar os dados para o backend
+  const onSubmit = async (data: IFormInputs) => {
+
+    const response = await fetch('http://127.0.0.1:5000/cliente', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data)
+    })
+
+    if (response.ok) {
+      setShowPopup(true);
+    } else {
+      console.log('Erro ao cadastrar usuário');
+    }
   };
 
+  // Efeito para lidar com o estado do popup
+  useEffect(() => {
+    if (showPopup) {
+      // Bloqueia o scroll
+      document.body.style.overflow = 'hidden';
+    } else {
+      // Restaura o scroll
+      document.body.style.overflow = 'auto';
+    }
+
+    // Cleanup para restaurar o scroll se o componente for desmontado
+    return () => {
+      document.body.style.overflow = 'auto';
+    };
+  }, [showPopup]);
+
+  // Efeito para redirecionar caso o usuário esteja autenticado
+  useEffect(() => {
+    if (isAuth) {
+      router.push('/dashboard');
+    }
+  }, [isAuth, router]);
+
+
   return (
-    <div className="min-h-screen bg-gray-100 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
-      <div className="sm:mx-auto sm:w-full sm:max-w-md">
-        <h2 className="mt-6 text-center text-3xl font-bold text-gray-900">
-          Criar nova conta
-        </h2>
+    <section className='container'>
+      <div className="wrapper">
+        <form id='form-user' onSubmit={handleSubmit(onSubmit)}>
+          <h2 >Criar sua conta</h2>
+
+          <div>
+            <label htmlFor="nome">Nome</label>
+            <input
+              id="nome"
+              type="text"
+              {...register('nome')}
+              className="input"
+            />
+            {errors.nome && (
+              <p className="error">{errors.nome.message}</p>
+            )}
+          </div>
+
+          <div>
+            <label>Sobrenome</label>
+            <input
+              id="sobrenome"
+              type="text"
+              {...register('sobrenome')}
+              className="input"
+            />
+            {errors.sobrenome && (
+              <p className="error">{errors.sobrenome.message}</p>
+            )}
+          </div>
+
+          <div>
+            <label>E-mail</label>
+            <input
+              id="email"
+              type="email"
+              {...register('email')}
+              className="input"
+            />
+            {errors.email && (
+              <p className="error">{errors.email.message}</p>
+            )}
+          </div>
+
+          <div>
+            <label htmlFor="senha">Senha</label>
+            <input
+              id="senha"
+              type="password"
+              {...register('senha')}
+              className="input"
+            />
+            {errors.senha && (
+              <p className="error">{errors.senha.message}</p>
+            )}
+          </div>
+
+          <button type="submit" className="button">Cadastrar</button>
+        </form>
+        {showPopup && (<Popup />)}
       </div>
-
-      <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
-        <div className="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
-          <form className="space-y-6" onSubmit={handleSubmit(onSubmit)}>
-            <div>
-              <label htmlFor="nome" className="block text-sm font-medium text-gray-700">
-                Nome
-              </label>
-              <div className="mt-1">
-                <input
-                  id="nome"
-                  type="text"
-                  {...register('nome')}
-                  className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
-                />
-                {errors.nome && (
-                  <p className="mt-2 text-sm text-red-600">{errors.nome.message}</p>
-                )}
-              </div>
-            </div>
-
-            <div>
-              <label htmlFor="sobrenome" className="block text-sm font-medium text-gray-700">
-                Sobrenome
-              </label>
-              <div className="mt-1">
-                <input
-                  id="sobrenome"
-                  type="text"
-                  {...register('sobrenome')}
-                  className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
-                />
-                {errors.sobrenome && (
-                  <p className="mt-2 text-sm text-red-600">{errors.sobrenome.message}</p>
-                )}
-              </div>
-            </div>
-
-            <div>
-              <label htmlFor="email" className="block text-sm font-medium text-gray-700">
-                E-mail
-              </label>
-              <div className="mt-1">
-                <input
-                  id="email"
-                  type="email"
-                  {...register('email')}
-                  className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
-                />
-                {errors.email && (
-                  <p className="mt-2 text-sm text-red-600">{errors.email.message}</p>
-                )}
-              </div>
-            </div>
-
-            <div>
-              <label htmlFor="senha" className="block text-sm font-medium text-gray-700">
-                Senha
-              </label>
-              <div className="mt-1">
-                <input
-                  id="senha"
-                  type="password"
-                  {...register('senha')}
-                  className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
-                />
-                {errors.senha && (
-                  <p className="mt-2 text-sm text-red-600">{errors.senha.message}</p>
-                )}
-              </div>
-            </div>
-
-            <div>
-              <button
-                type="submit"
-                className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-              >
-                Cadastrar
-              </button>
-            </div>
-          </form>
-        </div>
-      </div>
-    </div>
+    </section>
   );
 }
 

@@ -1,16 +1,15 @@
-import { Instagram, LinkedinIcon, Twitter } from "lucide-react";
 import Link from "next/link";
-
 
 const Footer = () => {
     return (
         <footer id="footer">
             <div className="wrapper">
-                <div>
+                <div id="container-links">
                     <ul>
                         <h3>Empresa</h3>
                         <Link href="#">Contato</Link>
                         <Link href="#">Parceiros</Link>
+                        <Link href="#">Nosso Time</Link>
                     </ul>
                     <ul>
                         <h3>Politicas</h3>
@@ -20,21 +19,10 @@ const Footer = () => {
                     </ul>
                     <ul>
                         <h3>Redes Sociais</h3>
-                        <li>
-                            <Link href="#">Blog</Link>
-                        </li>
-                        <li className="link-icon-flx-rw">
-                            <Link href="#"> Twitter </Link>
-                            <Twitter></Twitter>
-                        </li>
-                        <li className="link-icon-flx-rw">
-                            <Link href="#"> Instagram </Link>
-                            <Instagram></Instagram>
-                        </li>
-                        <li className="link-icon-flx-rw">
-                            <Link href="#"> LinkedIn </Link>
-                            <LinkedinIcon></LinkedinIcon>
-                        </li>
+                        <Link href="#">Blog</Link>
+                        <Link href="#"> Twitter </Link>
+                        <Link href="#"> Instagram </Link>
+                        <Link href="#"> LinkedIn </Link>
                     </ul>
                 </div>
             </div>

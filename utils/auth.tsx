@@ -1,18 +1,9 @@
-export const login = async (email: string, password: string) => {
-
-    if (email === 'admin@admin.com' && password === 'admin') {
-        alert('Efetuando Login...')
-        localStorage.setItem("authToken", "validToken"); //Simulando o armazenamento de um token
-        localStorage.setItem("sessionUser", email);
-        return true;
-    } else {
-        return false;
-    }
-
-    const res = await fetch('/api/authenticate', {
+export const login = async (email: string, senha: string) => {
+    alert('Verificando credenciais...')
+    const res = await fetch('http://127.0.0.1:5000/auth', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, password })
+        body: JSON.stringify({ email, senha })
     })
 
     if (res.ok) {

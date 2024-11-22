@@ -4,30 +4,28 @@ import { Sun, Battery, MapPin, ArrowRight, Phone } from 'lucide-react';
 
 const HomePage = () => {
   return (
-    <div className="min-h-screen bg-gradient-to-b from-blue-50 to-white">
-      {/* Hero Section */}
-      <section id='intro' className="relative py-20 px-4 md:px-6 lg:px-8">
-        <div className="max-w-7xl mx-auto">
-          <div className="text-center">
-            <h1 className="text-4xl md:text-6xl font-bold text-blue-900 mb-6">
-              Energia Solar para Todos
-            </h1>
-            <p className="text-white text-xl text-gray-600 mb-8 max-w-2xl mx-auto">
-              Transformando espaços públicos com pontos de carregamento solar para seus dispositivos móveis
-            </p>
-            <button className="inline-flex items-center bg-yellow-500 hover:bg-yellow-600 text-white px-8 py-6 text-lg rounded-full transition-colors duration-200">
-              <Link href='/mapa'>
-                Encontrar Pontos de Carregamento
-              </Link>
-              <ArrowRight className="ml-2" />
-            </button>
-          </div>r
+    <div className=" min-h-screen bg-gradient-to-b from-blue-50 to-white">
+
+      <section id='intro'>
+        <div>
+          <h1>
+            Energia Solar para Todos
+          </h1>
+          <p>
+            Transformando espaços públicos com pontos de carregamento solar para seus dispositivos móveis
+          </p>
         </div>
+        <button>
+          <Link href='/mapa'>
+            Pontos de Carregamento
+          </Link>
+          <ArrowRight className="ml-2" />
+        </button>
       </section>
 
       {/* Benefícios */}
       <section className="py-16 px-4 md:px-6 lg:px-8 bg-white">
-        <div className="max-w-7xl mx-auto">
+        <div className="max-w-7xl mx-aut wrapper">
           <h2 className="text-3xl font-bold text-center mb-12 text-blue-900">
             Benefícios da Energia Solar Pública
           </h2>
@@ -70,7 +68,7 @@ const HomePage = () => {
 
       {/* CTA Section */}
       <section className="bg-blue-900 text-white py-16 px-4 md:px-6 lg:px-8">
-        <div className="max-w-7xl mx-auto text-center">
+        <div className="max-w-7xl mx-auto text-center wrapper">
           <h2 className="text-3xl font-bold mb-6">
             Quer um ponto de carregamento no seu estabelecimento?
           </h2>
