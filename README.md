@@ -2,7 +2,7 @@
 
 1 - Primeiro execute o comando ```cd ``` até o diretório do projeto ou execute o bash detro da pasta.
 
-2 - Execute o comando ```npm install``` para instalar as dependências do projeto.
+2 - Execute o comando ```npm install --force``` para instalar as dependências do projeto.
 
 3 - Execute alguns dos comandos abaixo para iniciar o projeto:
 ```bash
