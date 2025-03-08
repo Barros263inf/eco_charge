@@ -18,13 +18,13 @@ const DashboardPage = () => {
     // Hook do contexto de autenticação
     const { isAuth } = useAuth();
 
-    const sessionUser = localStorage.getItem("sessionUser");
+    const sessionUser = typeof window !== "undefined" ? localStorage.getItem("sessionUser") : "";
 
     const [userData, setUserData] = useState<userData>();
 
-    const [deviceData, setDeviceData] = useState([]);
+    const [deviceData, setDeviceData] = useState<any>([]);
 
-    const [sectionData, setSectionData] = useState();
+    const [sectionData, setSectionData] = useState<any>();
 
 
     // Função para lidar com o logout
@@ -42,7 +42,7 @@ const DashboardPage = () => {
     useEffect(() => {
         const fetchUserData = async () => {
             try {
-                const response = await fetch(`http://127.0.0.1:5000/cliente/${sessionUser}`);
+                const response = await fetch(`https://eco-charge-rest-api.onrender.com/cliente/${sessionUser}`);
                 const data = await response.json();
                 setUserData(data);
                 console.log(data);
@@ -59,7 +59,7 @@ const DashboardPage = () => {
     useEffect(() => {
         const fetchDeviceData = async () => {
             try {
-                const response = await fetch(`http://127.0.0.1:5000/dispositivo/${sessionUser}`);
+                const response = await fetch(`https://eco-charge-rest-api.onrender.com/dispositivo/${sessionUser}`);
                 const data = await response.json();
                 setDeviceData(data);
                 console.log(data);
