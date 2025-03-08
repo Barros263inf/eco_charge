@@ -139,7 +139,7 @@ const CadastroParceiroPage = () => {
     const onSubmit = async (data: IFormInputs) => {
 
         try {
-            const response = await fetch("http://127.0.0.1:5000/estabelecimento", {
+            const response = await fetch("https://eco-charge-rest-api.onrender.com/estabelecimento", {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(data)

@@ -58,7 +58,7 @@ const Mapa = () => {
         // Carregar os dados do arquivo JSON
         const fetchMarkers = async () => {
             try {
-                const response = await fetch('http://127.0.0.1:5000/estabelecimentos');
+                const response = await fetch('https://eco-charge-rest-api.onrender.com/estabelecimentos');
                 const data = await response.json();
 
                 setMarkersData(data);

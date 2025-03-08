@@ -51,7 +51,7 @@ const CadastroUsuarioPage = () => {
   // Função para lidar com o envio do formulário
   const onSubmit = async (data: IFormInputs) => {
 
-    const response = await fetch('http://127.0.0.1:5000/cliente', {
+    const response = await fetch('https://eco-charge-rest-api.onrender.com/cliente', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(data)
