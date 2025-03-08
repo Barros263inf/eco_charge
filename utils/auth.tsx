@@ -1,8 +1,16 @@
 export const login = async (email: string, senha: string) => {
+
+    // Instancia das variuaveis de ambiente
+    const API_KEY = process.env.API_KEY;
+    const API_URL = process.env.API_URL;
+
     alert('Verificando credenciais...')
-    const res = await fetch('https://eco-charge-rest-api.onrender.com/auth', {
+    const res = await fetch(`${API_URL}/auth`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 
+            'Content-Type': 'application/json',
+            ...(API_KEY && {'X-API-KEY': API_KEY}),
+        },
         body: JSON.stringify({ email, senha })
     })
 

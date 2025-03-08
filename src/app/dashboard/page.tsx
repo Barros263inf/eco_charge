@@ -13,6 +13,10 @@ interface userData {
 }
 
 const DashboardPage = () => {
+    // Instancia das variuaveis de ambiente
+    const API_KEY = process.env.API_KEY;
+    const API_URL = process.env.API_URL;
+
     // Hook do Next.js para navegação
     const router = useRouter();
     // Hook do contexto de autenticação
@@ -42,7 +46,11 @@ const DashboardPage = () => {
     useEffect(() => {
         const fetchUserData = async () => {
             try {
-                const response = await fetch(`https://eco-charge-rest-api.onrender.com/cliente/${sessionUser}`);
+                const response = await fetch(`${API_URL}/cliente/${sessionUser}`, {
+                    headers: {
+                        ...(API_KEY && {'X-API-KEY': API_KEY}),
+                    },
+                });
                 const data = await response.json();
                 setUserData(data);
                 console.log(data);
@@ -59,7 +67,11 @@ const DashboardPage = () => {
     useEffect(() => {
         const fetchDeviceData = async () => {
             try {
-                const response = await fetch(`https://eco-charge-rest-api.onrender.com/dispositivo/${sessionUser}`);
+                const response = await fetch(`${API_URL}/dispositivo/${sessionUser}`, {
+                    headers: {
+                        ...(API_KEY && {'X-API-KEY': API_KEY}),
+                    },
+                });
                 const data = await response.json();
                 setDeviceData(data);
                 console.log(data);
@@ -77,7 +89,11 @@ const DashboardPage = () => {
     useEffect(() => {
         const fetchSectionData = async () => {
             try {
-                const response = await fetch(`http://127.0.0.1:5000/secao/${sessionUser}`);
+                const response = await fetch(`${API_URL}/secao/${sessionUser}`, {
+                    headers: {
+                        ...(API_KEY && {'X-API-KEY': API_KEY}),
+                    },
+                });
                 const data = await response.json();
                 setSectionData(data);
                 console.log(data);

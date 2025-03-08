@@ -43,6 +43,10 @@ interface IFormInputs {
 }
 
 const CadastroParceiroPage = () => {
+    // Instancia das variuaveis de ambiente
+    const API_KEY = process.env.API_KEY;
+    const API_URL = process.env.API_URL;
+
     // Hook do Next.js para navegação
     const router = useRouter();
 
@@ -139,9 +143,12 @@ const CadastroParceiroPage = () => {
     const onSubmit = async (data: IFormInputs) => {
 
         try {
-            const response = await fetch("https://eco-charge-rest-api.onrender.com/estabelecimento", {
+            const response = await fetch(`${API_URL}/estabelecimento`, {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
+                headers: { 
+                    'Content-Type': 'application/json',
+                    ...(API_KEY && {'X-API-KEY': API_KEY}),
+                },
                 body: JSON.stringify(data)
             })
 
