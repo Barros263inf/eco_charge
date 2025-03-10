@@ -34,7 +34,7 @@ interface IFormInputs {
 
 const CadastroUsuarioPage = () => {
   // Instancia das variuaveis de ambiente
-  //const API_KEY = process.env.API_KEY;
+  const API_KEY = process.env.API_KEY;
   const API_URL = process.env.API_URL;
 
   // Estado de autenticação
@@ -58,7 +58,7 @@ const CadastroUsuarioPage = () => {
       method: 'POST',
       headers: { 
         'Content-Type': 'application/json',
-        //...(API_KEY && {"X-API-KEY": API_KEY}), 
+        ...(API_KEY && {"X-API-KEY": API_KEY}), 
       },
       body: JSON.stringify(data)
     })

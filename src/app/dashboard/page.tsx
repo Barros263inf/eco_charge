@@ -47,13 +47,11 @@ const DashboardPage = () => {
         const fetchUserData = async () => {
             try {
                 const response = await fetch(`${API_URL}/cliente/${sessionUser}`, 
-                    /*
                     {
                         headers: {
                             ...(API_KEY && {'X-API-KEY': API_KEY}),
                         },
                     }
-                    */
                 );
                 const data = await response.json();
                 setUserData(data);
@@ -72,13 +70,11 @@ const DashboardPage = () => {
         const fetchDeviceData = async () => {
             try {
                 const response = await fetch(`${API_URL}/dispositivo/${sessionUser}`, 
-                    /*
                     {
                         headers: {
                             ...(API_KEY && {'X-API-KEY': API_KEY}),
                         },
                     }
-                    */
                 );
                 const data = await response.json();
                 setDeviceData(data);
@@ -97,15 +93,13 @@ const DashboardPage = () => {
     useEffect(() => {
         const fetchSectionData = async () => {
             try {
-                const response = await fetch(`${API_URL}/secao/${sessionUser}`, {
-                    /*
+                const response = await fetch(`${API_URL}/secao/${sessionUser}`, 
                     {
                         headers: {
                             ...(API_KEY && {'X-API-KEY': API_KEY}),
                         },
                     }
-                    */
-                });
+                );
                 const data = await response.json();
                 setSectionData(data);
                 console.log(data);
