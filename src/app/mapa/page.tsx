@@ -29,7 +29,7 @@ interface MarkerData {
 const Mapa = () => {
 
     // Instancia das variuaveis de ambiente
-    const API_KEY = process.env.API_KEY;
+    //const API_KEY = process.env.API_KEY;
     const API_URL = process.env.API_URL;
 
     // Estado para armazenar os dados dos marcadores
@@ -62,11 +62,16 @@ const Mapa = () => {
         // Carregar os dados do arquivo JSON
         const fetchMarkers = async () => {
             try {
-                const response = await fetch(`${API_URL}/estabelecimentos`, {
-                    headers: {
-                        ...(API_KEY && {"X-API-KEY": API_KEY}), // Envio da API_KEY
-                    },
-                });
+                const response = await fetch(`${API_URL}/estabelecimentos`, 
+                    /*
+                    {
+                        headers: {
+                            //...(API_KEY && {"X-API-KEY": API_KEY}), // Envio da API_KEY
+                        },
+                    }
+                    */
+                );
+                
                 const data = await response.json();
 
                 setMarkersData(data);

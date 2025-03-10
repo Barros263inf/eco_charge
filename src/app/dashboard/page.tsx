@@ -46,11 +46,15 @@ const DashboardPage = () => {
     useEffect(() => {
         const fetchUserData = async () => {
             try {
-                const response = await fetch(`${API_URL}/cliente/${sessionUser}`, {
-                    headers: {
-                        ...(API_KEY && {'X-API-KEY': API_KEY}),
-                    },
-                });
+                const response = await fetch(`${API_URL}/cliente/${sessionUser}`, 
+                    /*
+                    {
+                        headers: {
+                            ...(API_KEY && {'X-API-KEY': API_KEY}),
+                        },
+                    }
+                    */
+                );
                 const data = await response.json();
                 setUserData(data);
                 console.log(data);
@@ -67,11 +71,15 @@ const DashboardPage = () => {
     useEffect(() => {
         const fetchDeviceData = async () => {
             try {
-                const response = await fetch(`${API_URL}/dispositivo/${sessionUser}`, {
-                    headers: {
-                        ...(API_KEY && {'X-API-KEY': API_KEY}),
-                    },
-                });
+                const response = await fetch(`${API_URL}/dispositivo/${sessionUser}`, 
+                    /*
+                    {
+                        headers: {
+                            ...(API_KEY && {'X-API-KEY': API_KEY}),
+                        },
+                    }
+                    */
+                );
                 const data = await response.json();
                 setDeviceData(data);
                 console.log(data);
@@ -90,9 +98,13 @@ const DashboardPage = () => {
         const fetchSectionData = async () => {
             try {
                 const response = await fetch(`${API_URL}/secao/${sessionUser}`, {
-                    headers: {
-                        ...(API_KEY && {'X-API-KEY': API_KEY}),
-                    },
+                    /*
+                    {
+                        headers: {
+                            ...(API_KEY && {'X-API-KEY': API_KEY}),
+                        },
+                    }
+                    */
                 });
                 const data = await response.json();
                 setSectionData(data);
