@@ -58,7 +58,7 @@ const CadastroUsuarioPage = () => {
       method: 'POST',
       headers: { 
         'Content-Type': 'application/json',
-        ...(API_KEY && {"X-API-KEY": API_KEY}), 
+        //...(API_KEY && {"X-API-KEY": API_KEY}), 
       },
       body: JSON.stringify(data)
     })

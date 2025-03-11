@@ -31,6 +31,8 @@ const Mapa = () => {
     // Instancia das variuaveis de ambiente
     const API_KEY = process.env.API_KEY;
     const API_URL = process.env.API_URL;
+    const MAP_BOX_TOKEN = process.env.MAP_BOX_TOKEN;
+    const MAP_BOX_STYLE = process.env.MAP_BOX_STYLE;
 
     // Estado para armazenar os dados dos marcadores
     const [userLocation, setUserLocation] = useState<coords>();
@@ -63,13 +65,13 @@ const Mapa = () => {
         const fetchMarkers = async () => {
             try {
                 const response = await fetch(`${API_URL}/estabelecimentos`, 
-                    
+                    /*
                     {
                         headers: {
                             ...(API_KEY && {"X-API-KEY": API_KEY}), // Envio da API_KEY
                         },
                     }
-                    
+                    */
                 );
 
                 const data = await response.json();
@@ -81,12 +83,12 @@ const Mapa = () => {
             }
         };
         fetchMarkers();
-    }, [])
+    }, [API_URL/*,API_KEY*/])
 
     // Use o hook useEffect para criar o mapa apenas quando a localização do usuário estiver disponível
     useEffect(() => {
         if (userLocation && markersData.length > 0) {
-            mapboxgl.accessToken = 'pk.eyJ1IjoiYmFycm9zMjYzIiwiYSI6ImNtM29jdXowejAyZjQya3EzNGcxYzV2YWkifQ.Djv_p2br6Rk2qIbVvPPlcQ';
+            mapboxgl.accessToken = MAP_BOX_TOKEN;
 
             const { latitude, longitude } = userLocation;
 
@@ -102,7 +104,7 @@ const Mapa = () => {
             // Criar o mapa
             const map = new mapboxgl.Map({
                 container: 'map',
-                style: 'mapbox://styles/barros263/cm3ogyktv006l01rzgf8mg5qa',
+                style: MAP_BOX_STYLE,
                 center: [userLocation.longitude, userLocation.latitude],
                 zoom: 12,
             });
