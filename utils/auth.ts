@@ -1,15 +1,15 @@
 export const login = async (email: string, senha: string) => {
 
     // Instancia das variuaveis de ambiente
-    const API_KEY = process.env.API_KEY;
-    const API_URL = process.env.API_URL;
+    const API_KEY = process.env.NEXT_PUBLIC_API_KEY;
+    const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
     alert('Verificando credenciais...')
     const res = await fetch(`${API_URL}/auth`, {
-        method: 'POST',
+        method: "POST",
         headers: { 
-            'Content-Type': 'application/json',
-            //...(API_KEY && {'X-API-KEY': API_KEY}),
+            "Content-Type": "application/json",
+            ...(API_KEY && {"X-API-KEY": API_KEY}),
         },
         body: JSON.stringify({ email, senha })
     })

@@ -29,10 +29,10 @@ interface MarkerData {
 const Mapa = () => {
 
     // Instancia das variuaveis de ambiente
-    const API_KEY = process.env.API_KEY;
-    const API_URL = process.env.API_URL;
-    const MAP_BOX_TOKEN = process.env.MAP_BOX_TOKEN;
-    const MAP_BOX_STYLE = process.env.MAP_BOX_STYLE;
+    const API_KEY = process.env.NEXT_PUBLIC_API_KEY;
+    const API_URL = process.env.NEXT_PUBLIC_API_URL;
+    const MAP_BOX_TOKEN= process.env.NEXT_PUBLIC_MAP_BOX_TOKEN;
+    const MAP_BOX_STYLE = process.env.NEXT_PUBLIC_MAP_BOX_STYLE;
 
     // Estado para armazenar os dados dos marcadores
     const [userLocation, setUserLocation] = useState<coords>();
@@ -40,6 +40,7 @@ const Mapa = () => {
 
     // Função para obter a localização atual
     useEffect(() => {
+
         const getUserLocation = () => {
             if (navigator.geolocation) {
                 navigator.geolocation.getCurrentPosition(
@@ -57,39 +58,46 @@ const Mapa = () => {
         };
 
         getUserLocation();
-    }, []);
+
+    }, [navigator]);
 
     // Função para carregar os dados dos marcadores
     useEffect(() => {
         // Carregar os dados do arquivo JSON
         const fetchMarkers = async () => {
             try {
+                
                 const response = await fetch(`${API_URL}/estabelecimentos`, 
-                    /*
-                    {
+                    
+                    {   
+                        method: "GET",
                         headers: {
+                            "Content-Type": "application/json",
                             ...(API_KEY && {"X-API-KEY": API_KEY}), // Envio da API_KEY
                         },
                     }
-                    */
+                    
                 );
 
                 const data = await response.json();
 
+                //setMarkersData(await response.json())
+
                 setMarkersData(data);
-                console.log(markersData);
+                
             } catch (error) {
                 console.error('Erro ao carregar marcadores:', error);
             }
         };
         fetchMarkers();
-    }, [API_URL/*,API_KEY*/])
+    }, [API_URL,API_KEY])
 
     // Use o hook useEffect para criar o mapa apenas quando a localização do usuário estiver disponível
     useEffect(() => {
-        if (userLocation && markersData.length > 0) {
-            mapboxgl.accessToken = MAP_BOX_TOKEN;
+        if (userLocation && markersData.length > 0 || userLocation) {
 
+            mapboxgl.accessToken = MAP_BOX_TOKEN;
+            
             const { latitude, longitude } = userLocation;
 
             // Calcular deslocamento para 20 km em graus
@@ -115,7 +123,7 @@ const Mapa = () => {
             // Adicionar o marcador do usuário
             new mapboxgl.Marker()
                 .setLngLat([userLocation.longitude, userLocation.latitude])
-                .addTo(map);
+                .addTo(map)
 
             // Adicionar marcadores quando os dados forem carregados
             if (markersData.length > 0) {

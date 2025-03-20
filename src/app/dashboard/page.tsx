@@ -14,8 +14,8 @@ interface userData {
 
 const DashboardPage = () => {
     // Instancia das variuaveis de ambiente
-    const API_KEY = process.env.API_KEY;
-    const API_URL = process.env.API_URL;
+    const API_KEY = process.env.NEXT_PUBLIC_API_KEY;
+    const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
     // Hook do Next.js para navegação
     const router = useRouter();
@@ -47,13 +47,13 @@ const DashboardPage = () => {
         const fetchUserData = async () => {
             try {
                 const response = await fetch(`${API_URL}/cliente/${sessionUser}`, 
-                    /*
+                    
                     {
                         headers: {
                             ...(API_KEY && {'X-API-KEY': API_KEY}),
                         },
                     }
-                    */
+                    
                 );
                 const data = await response.json();
                 setUserData(data);
@@ -72,13 +72,13 @@ const DashboardPage = () => {
         const fetchDeviceData = async () => {
             try {
                 const response = await fetch(`${API_URL}/dispositivo/${sessionUser}`, 
-                    /*
+                    
                     {
                         headers: {
                             ...(API_KEY && {'X-API-KEY': API_KEY}),
                         },
                     }
-                    */
+                    
                 );
                 const data = await response.json();
                 setDeviceData(data);
@@ -98,13 +98,13 @@ const DashboardPage = () => {
         const fetchSectionData = async () => {
             try {
                 const response = await fetch(`${API_URL}/secao/${sessionUser}`, 
-                    /*
+                    
                     {
                         headers: {
                             ...(API_KEY && {'X-API-KEY': API_KEY}),
                         },
                     }
-                    */
+                    
                 );
                 const data = await response.json();
                 setSectionData(data);

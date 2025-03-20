@@ -1,11 +1,12 @@
 'use client'
 import React, { useEffect, useState } from 'react';
-import { set, useForm } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { IMaskInput } from 'react-imask'
 import { useRouter } from 'next/navigation';
 import Popup from 'components/Popup';
+import apiHandller from 'utils/apiHandller';
 
 // Schema de validação
 const schema = yup.object({
@@ -44,8 +45,8 @@ interface IFormInputs {
 
 const CadastroParceiroPage = () => {
     // Instancia das variuaveis de ambiente
-    const API_KEY = process.env.API_KEY;
-    const API_URL = process.env.API_URL;
+    const API_KEY = process.env.NEXT_PUBLIC_API_KEY;
+    const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
     // Hook do Next.js para navegação
     const router = useRouter();
@@ -142,6 +143,8 @@ const CadastroParceiroPage = () => {
     // Função para lidar com a submissão do formulário
     const onSubmit = async (data: IFormInputs) => {
 
+        apiHandller("/estabelecimento","POST", data)
+
         try {
             const response = await fetch(`${API_URL}/estabelecimento`, {
                 method: 'POST',
@@ -194,7 +197,7 @@ const CadastroParceiroPage = () => {
                                 mask="00.000.000/0000-00"
                                 id="cnpj"
                                 type="text"
-                                onAccept={(value: any) => setValue('cnpj', value)}
+                                onAccept={(value: string) => setValue('cnpj', value)}
                                 {...register('cnpj')}
                                 className="input"
                             />
@@ -228,7 +231,7 @@ const CadastroParceiroPage = () => {
                                 mask="00000-000"
                                 id="cep"
                                 type="text"
-                                onAccept={(value) => {
+                                onAccept={(value: string) => {
                                     setValue('cep', value);
                                     buscarCEP(value)
                                 }}
@@ -380,7 +383,6 @@ const CadastroParceiroPage = () => {
 
             </div>
         </section>
-
     );
 }
 
