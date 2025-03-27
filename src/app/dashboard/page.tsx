@@ -49,7 +49,9 @@ const DashboardPage = () => {
                 const response = await fetch(`${API_URL}/cliente/${sessionUser}`, 
                     
                     {
+                        method: 'GET',
                         headers: {
+                            "Content-Type": "application/json",
                             ...(API_KEY && {'X-API-KEY': API_KEY}),
                         },
                     }
@@ -57,7 +59,6 @@ const DashboardPage = () => {
                 );
                 const data = await response.json();
                 setUserData(data);
-                console.log(data);
 
             } catch (error) {
                 console.error('Erro ao carregar dados do usuário:', error);
@@ -74,7 +75,9 @@ const DashboardPage = () => {
                 const response = await fetch(`${API_URL}/dispositivo/${sessionUser}`, 
                     
                     {
+                        method: 'GET',
                         headers: {
+                            "Content-Type": "application/json",
                             ...(API_KEY && {'X-API-KEY': API_KEY}),
                         },
                     }
@@ -82,7 +85,6 @@ const DashboardPage = () => {
                 );
                 const data = await response.json();
                 setDeviceData(data);
-                console.log(data);
 
             } catch (error) {
                 console.error('Erro ao carregar dados do usuário:', error);
@@ -100,7 +102,9 @@ const DashboardPage = () => {
                 const response = await fetch(`${API_URL}/secao/${sessionUser}`, 
                     
                     {
+                        method: 'GET',
                         headers: {
+                            "Content-Type": "application/json",
                             ...(API_KEY && {'X-API-KEY': API_KEY}),
                         },
                     }
@@ -108,7 +112,6 @@ const DashboardPage = () => {
                 );
                 const data = await response.json();
                 setSectionData(data);
-                console.log(data);
             } catch (error) {
                 console.error('Erro ao carregar dados do usuário:', error);
             }
@@ -132,7 +135,7 @@ const DashboardPage = () => {
                     {
                         userData &&
                         <div>
-                            <p>Nome: {userData.nome}</p>''
+                            <p>Nome: {userData.nome}</p>
                             <p>Email: {userData.email}</p>
                         </div>
                     }
@@ -143,7 +146,7 @@ const DashboardPage = () => {
                         deviceData &&
                         <div>
                             <p>Nome: {deviceData?.nome}</p>
-                            <p>Email: {deviceData?.modelo}</p>
+                            <p>Modelo: {deviceData?.modelo}</p>
                         </div>
                     }
                 </div>

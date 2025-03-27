@@ -5,6 +5,7 @@ export const login = async (email: string, senha: string) => {
     const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
     alert('Verificando credenciais...')
+    
     const res = await fetch(`${API_URL}/auth`, {
         method: "POST",
         headers: { 

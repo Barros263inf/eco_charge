@@ -37,8 +37,6 @@ const LoginPage = () => {
   });
 
   const onSubmit = async (data: IFormInputs) => {
-    
-    console.log(data);
 
     const isSuccess = login(data.email, data.senha);
 

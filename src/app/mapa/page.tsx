@@ -29,7 +29,7 @@ interface MarkerData {
 const Mapa = () => {
 
     // Instancia das variuaveis de ambiente
-    const API_KEY = process.env.NEXT_PUBLIC_API_KEY;
+    const API_KEY = process.env.NEXT_PUBLIC_API_KEY?.toString();
     const API_URL = process.env.NEXT_PUBLIC_API_URL;
     const MAP_BOX_TOKEN= process.env.NEXT_PUBLIC_MAP_BOX_TOKEN;
     const MAP_BOX_STYLE = process.env.NEXT_PUBLIC_MAP_BOX_STYLE;

@@ -5,6 +5,7 @@ const apiHandller = async (resorce: string, method: string, data?:any) => {
     try {
         const response = await fetch(`${API_URL}/${resorce}`, {
             method: `${method.toUpperCase}`,
+            mode: "cors",
             headers: {
                "Content-Type":"application/json",
                 ...(API_KEY && {"X-API-KEY": API_KEY})
