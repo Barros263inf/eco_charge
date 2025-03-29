@@ -6,6 +6,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { useRouter } from 'next/navigation';
 import Popup from 'components/Popup';
 import { useAuth } from 'context/AuthProvider';
+import apiHandller from 'utils/apiHandller';
 
 // Definindo o schema de validação com Yup
 const schema = yup.object({
@@ -24,14 +25,6 @@ const schema = yup.object({
     .max(12, 'Senha deve ter no máximo 12 caracteres')
 });
 
-// Interface para tipagem dos dados do formulário
-interface IFormInputs {
-  nome: string;
-  sobrenome: string;
-  email: string;
-  senha: string;
-}
-
 const CadastroUsuarioPage = () => {
   // Instancia das variuaveis de ambiente
   const API_KEY = process.env.NEXT_PUBLIC_API_KEY;
@@ -47,26 +40,19 @@ const CadastroUsuarioPage = () => {
   const [showPopup, setShowPopup] = useState(false);
 
   // Hook do Yup para validação
-  const { register, handleSubmit, formState: { errors } } = useForm<IFormInputs>({
+  const { register, handleSubmit, formState: { errors } } = useForm<RegisterUserFormInputs>({
     resolver: yupResolver(schema)
   });
 
   // Função para lidar com o envio do formulário
-  const onSubmit = async (data: IFormInputs) => {
+  const onSubmit = async (data: RegisterUserFormInputs) => {
 
-    const response = await fetch(`${API_URL}/cliente`, {
-      method: 'POST',
-      headers: { 
-        'Content-Type': 'application/json',
-        ...(API_KEY && {"X-API-KEY": API_KEY}), 
-      },
-      body: JSON.stringify(data)
-    })
-
-    if (response.ok) {
-      setShowPopup(true);
+    const response = await apiHandller("/cliente", "POST", data);
+    
+    if (response == false) {
+      alert('Erro ao cadastrar usuário');
     } else {
-      console.log('Erro ao cadastrar usuário');
+      setShowPopup(true);
     }
   };
 

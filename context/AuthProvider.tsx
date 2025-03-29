@@ -3,12 +3,6 @@
 import { createContext, useContext, useState, useEffect, ReactNode } from "react";
 import { isAuthenticated } from "../utils/auth";
 
-// Define a interface para o contexto de autenticação
-interface AuthContextType {
-  isAuth: boolean;
-  setIsAuth: (auth: boolean) => void;
-}
-
 // Define o contexto com o tipo correto
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 

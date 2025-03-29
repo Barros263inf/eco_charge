@@ -28,20 +28,6 @@ const schema = yup.object({
         .max(2, 'UF deve ter 2 caracteres')
 });
 
-// Interface para tipagem dos dados do formulário
-interface IFormInputs {
-    cnpj: string;
-    nome: string;
-    cep: string;
-    logradouro: string;
-    numero: string;
-    complemento?: string;
-    bairro: string;
-    cidade: string;
-    uf: string;
-    latitude?: number;
-    longitude?: number;
-}
 
 const CadastroParceiroPage = () => {
     // Instancia das variuaveis de ambiente
@@ -52,7 +38,7 @@ const CadastroParceiroPage = () => {
     const router = useRouter();
 
     // Estado para armazenar os dados do formulário
-    const { register, handleSubmit, setValue, formState: { errors } } = useForm<IFormInputs>({
+    const { register, handleSubmit, setValue, formState: { errors } } = useForm<RegisterPartnerFormInputs>({
         resolver: yupResolver(schema)
     });
 
@@ -141,25 +127,24 @@ const CadastroParceiroPage = () => {
     };
 
     // Função para lidar com a submissão do formulário
-    const onSubmit = async (data: IFormInputs) => {
-
-        apiHandller("/estabelecimento","POST", data)
+    const onSubmit = async (data: RegisterPartnerFormInputs) => {
 
         try {
-            const response = await fetch(`${API_URL}/estabelecimento`, {
+            const response = await apiHandller("/estabelecimento","POST", data);
+            
+            /*const response = await fetch(`${API_URL}/estabelecimento`, {
                 method: 'POST',
                 headers: { 
                     'Content-Type': 'application/json',
                     ...(API_KEY && {'X-API-KEY': API_KEY}),
                 },
                 body: JSON.stringify(data)
-            })
+            })*/
 
-            if (response.ok) {
-                console.log("Formulário enviado com sucesso!");
-                setShowPopup(true);
+            if (response == false) {
+                alert("Erro ao enviar o formulário.");
             } else {
-                console.error("Erro ao enviar o formulário.");
+                setShowPopup(true);
             }
 
         } catch (error) {

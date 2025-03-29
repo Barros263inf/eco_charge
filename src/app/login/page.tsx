@@ -17,12 +17,6 @@ const schema = yup.object({
     .required('Senha é obrigatória')
 });
 
-// Interface para tipagem dos dados do formulário
-interface IFormInputs {
-  email: string;
-  senha: string;
-}
-
 const LoginPage = () => {
 
   // Hook do Next.js para navegação
@@ -32,11 +26,11 @@ const LoginPage = () => {
   const { isAuth } = useAuth();
 
   // Hook do React Hook Form
-  const { register, handleSubmit, formState: { errors } } = useForm<IFormInputs>({
+  const { register, handleSubmit, formState: { errors } } = useForm<LoginFormInputs>({
     resolver: yupResolver(schema)
   });
 
-  const onSubmit = async (data: IFormInputs) => {
+  const onSubmit = async (data: LoginFormInputs) => {
 
     const isSuccess = login(data.email, data.senha);
 

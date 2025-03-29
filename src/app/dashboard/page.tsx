@@ -3,19 +3,9 @@ import { logout } from "utils/auth";
 import { useRouter } from "next/navigation";
 import { useAuth } from "context/AuthProvider";
 import { useEffect, useState } from "react";
-
-interface userData {
-    id: number;
-    nome: string;
-    sobrenome: string;
-    email: string;
-    senha: string;
-}
+import apiHandller from "utils/apiHandller";
 
 const DashboardPage = () => {
-    // Instancia das variuaveis de ambiente
-    const API_KEY = process.env.NEXT_PUBLIC_API_KEY;
-    const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
     // Hook do Next.js para navegação
     const router = useRouter();
@@ -26,9 +16,9 @@ const DashboardPage = () => {
 
     const [userData, setUserData] = useState<userData>();
 
-    const [deviceData, setDeviceData] = useState<any>([]);
+    const [deviceData, setDeviceData] = useState<deviceData>();
 
-    const [sectionData, setSectionData] = useState<any>();
+    const [sectionData, setSectionData] = useState<sessionData>();
 
 
     // Função para lidar com o logout
@@ -40,84 +30,11 @@ const DashboardPage = () => {
             router.push("/login");
             location.reload();
         }
+        // Se o usuário não estiver autenticado, redireciona para o login
+        if (!isAuth) {
+            router.push("/login");
+        }
     };
-
-    // Função para carregar dados do usuário
-    useEffect(() => {
-        const fetchUserData = async () => {
-            try {
-                const response = await fetch(`${API_URL}/cliente/${sessionUser}`, 
-                    
-                    {
-                        method: 'GET',
-                        headers: {
-                            "Content-Type": "application/json",
-                            ...(API_KEY && {'X-API-KEY': API_KEY}),
-                        },
-                    }
-                    
-                );
-                const data = await response.json();
-                setUserData(data);
-
-            } catch (error) {
-                console.error('Erro ao carregar dados do usuário:', error);
-            }
-        }
-        fetchUserData();
-
-    }, [sessionUser]);
-
-    // Função para carregar dados do dispositivo
-    useEffect(() => {
-        const fetchDeviceData = async () => {
-            try {
-                const response = await fetch(`${API_URL}/dispositivo/${sessionUser}`, 
-                    
-                    {
-                        method: 'GET',
-                        headers: {
-                            "Content-Type": "application/json",
-                            ...(API_KEY && {'X-API-KEY': API_KEY}),
-                        },
-                    }
-                    
-                );
-                const data = await response.json();
-                setDeviceData(data);
-
-            } catch (error) {
-                console.error('Erro ao carregar dados do usuário:', error);
-            }
-
-        }
-        fetchDeviceData();
-
-    }, [sessionUser]);
-
-    // Função para carregar dados da seção
-    useEffect(() => {
-        const fetchSectionData = async () => {
-            try {
-                const response = await fetch(`${API_URL}/secao/${sessionUser}`, 
-                    
-                    {
-                        method: 'GET',
-                        headers: {
-                            "Content-Type": "application/json",
-                            ...(API_KEY && {'X-API-KEY': API_KEY}),
-                        },
-                    }
-                    
-                );
-                const data = await response.json();
-                setSectionData(data);
-            } catch (error) {
-                console.error('Erro ao carregar dados do usuário:', error);
-            }
-        }
-        fetchSectionData();
-    },[sessionUser]);
 
     useEffect(() => {
         // Se o usuário não estiver autenticado, redireciona para o login
@@ -126,6 +43,28 @@ const DashboardPage = () => {
         }
     }, [isAuth, router]);
 
+    // Função para carregar dados do usuário
+    useEffect(() => {
+        const fetchUserData = async () => {
+            try {
+                const responseUser = await apiHandller(`/cliente/${sessionUser}`, "GET");
+                //console.log(responseUser);
+                setUserData(responseUser);
+
+                const responseDevice = await apiHandller(`/dispositivo/${sessionUser}`,"GET");
+                //console.log(responseDevice);
+                setDeviceData(responseDevice);
+                
+                const responseSession = await apiHandller(`/sessao/${sessionUser}`,"GET");
+                //console.log(responseSession);
+                setSectionData(responseSession);
+
+            } catch (error) {
+                console.error('Erro ao carregar dados:', error);
+            }
+        }
+        fetchUserData();
+    }, [sessionUser]);
 
     return (
         <div className="wrapper">
@@ -155,7 +94,8 @@ const DashboardPage = () => {
                     {
                         sectionData &&
                         <div>
-                            <p>Data: {sectionData?.data}</p>
+
+                            <p>Data: {sectionData.dispositivo}</p>
                         </div>
                     }
                 </div>

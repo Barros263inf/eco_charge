@@ -3,46 +3,29 @@ import React, { useEffect, useState } from 'react';
 import mapboxgl from 'mapbox-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import Link from 'next/link';
-
-// Interface para tipagem das coordenadas
-interface coords {
-    longitude: number;
-    latitude: number;
-}
-
-// Interface para tipagem dos dados dos marcadores
-interface MarkerData {
-    bairro: string;
-    cep: string;
-    cidade: string;
-    cnpj: string;
-    complemento: string | null;
-    id: number;
-    latitude: number;
-    logradouro: string;
-    longitude: number;
-    nome: string;
-    numero: string;
-    uf: string;
-}
+import apiHandller from 'utils/apiHandller';
 
 const Mapa = () => {
-
     // Instancia das variuaveis de ambiente
-    const API_KEY = process.env.NEXT_PUBLIC_API_KEY?.toString();
-    const API_URL = process.env.NEXT_PUBLIC_API_URL;
     const MAP_BOX_TOKEN= process.env.NEXT_PUBLIC_MAP_BOX_TOKEN;
     const MAP_BOX_STYLE = process.env.NEXT_PUBLIC_MAP_BOX_STYLE;
 
     // Estado para armazenar os dados dos marcadores
-    const [userLocation, setUserLocation] = useState<coords>();
+    const [userLocation, setUserLocation] = useState<Coords>();
     const [markersData, setMarkersData] = useState<MarkerData[]>([]);
 
-    // Função para obter a localização atual
     useEffect(() => {
+        // Função para carregar os dados dos marcadores
+        const fetchMarkers = async () => {
 
-        const getUserLocation = () => {
-            if (navigator.geolocation) {
+            const response = await apiHandller("/estabelecimentos", "GET");
+            setMarkersData(response);
+                
+        };
+        // Função para obter a localização atual
+        const getUserLocation = async () => {
+
+            if (await navigator.geolocation) {
                 navigator.geolocation.getCurrentPosition(
                     (position) => {
                         const { latitude, longitude } = position.coords;
@@ -56,41 +39,9 @@ const Mapa = () => {
                 console.error('Geolocalização não é suportada pelo navegador.');
             }
         };
-
         getUserLocation();
-
-    }, [navigator]);
-
-    // Função para carregar os dados dos marcadores
-    useEffect(() => {
-        // Carregar os dados do arquivo JSON
-        const fetchMarkers = async () => {
-            try {
-                
-                const response = await fetch(`${API_URL}/estabelecimentos`, 
-                    
-                    {   
-                        method: "GET",
-                        headers: {
-                            "Content-Type": "application/json",
-                            ...(API_KEY && {"X-API-KEY": API_KEY}), // Envio da API_KEY
-                        },
-                    }
-                    
-                );
-
-                const data = await response.json();
-
-                //setMarkersData(await response.json())
-
-                setMarkersData(data);
-                
-            } catch (error) {
-                console.error('Erro ao carregar marcadores:', error);
-            }
-        };
         fetchMarkers();
-    }, [API_URL,API_KEY])
+    }, [navigator])
 
     // Use o hook useEffect para criar o mapa apenas quando a localização do usuário estiver disponível
     useEffect(() => {
@@ -155,7 +106,7 @@ const Mapa = () => {
 
             return () => map.remove();
         }
-    }, [userLocation, markersData]);
+    }, [userLocation, markersData, MAP_BOX_STYLE, MAP_BOX_TOKEN]);
 
     return (
         <section id="map-page">
