@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Footer from "components/Footer";
 import Header from "components/Header";
+import { ReactNode } from "react";
 import { AuthProvider } from "context/AuthProvider";
 import "../../public/globals.css";
 
@@ -9,11 +10,7 @@ export const metadata: Metadata = {
   description: "Seu site para carregamento de dispositivos móveis",
 };
 
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+const RootLayout = ({children}: LayoutProps) => {
   return (
     <AuthProvider >
       <html lang="pt-br">
@@ -28,3 +25,5 @@ export default function RootLayout({
     </AuthProvider>
   );
 }
+
+export default RootLayout;

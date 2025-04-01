@@ -316,7 +316,7 @@ p.error {
 }
 
 section.container {
-  margin-block: 3em;
+  margin: 3em auto;
 }
 
 #dashboard {
@@ -491,4 +491,8 @@ section.container {
     text-align: left;
   }
 
+}
+
+::-webkit-scrollbar {
+  width: 0;
 }

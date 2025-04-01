@@ -77,4 +77,10 @@ type MarkerData = {
 type AuthContextType = {
     isAuth: boolean;
     setIsAuth: (auth: boolean) => void;
-  }
+}
+
+interface LayoutProps {
+    children: React.ReactNode;
+    types: string;
+}
+  
